@@ -1,0 +1,56 @@
+{
+  "name": "xiaobai-accounting",
+  "version": "1.0.0",
+  "description": "小白记账 - 个人记账桌面应用",
+  "main": "./out/main/index.js",
+  "scripts": {
+    "dev": "set ELECTRON_RUN_AS_NODE= && electron-vite dev",
+    "build": "set ELECTRON_RUN_AS_NODE= && electron-vite build",
+    "preview": "set ELECTRON_RUN_AS_NODE= && electron-vite preview",
+    "package": "set ELECTRON_RUN_AS_NODE= && electron-vite build && electron-builder",
+    "typecheck": "tsc --noEmit",
+    "postinstall": "node -e \"if(process.env.ELECTRON_RUN_AS_NODE){console.warn('\\n⚠️  WARNING: ELECTRON_RUN_AS_NODE is set! This will break Electron.\\n   Please remove it from your system environment variables.\\n')}\""
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "recharts": "^2.13.0",
+    "sql.js": "^1.12.0",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/uuid": "^10.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "22.3.27",
+    "electron-builder": "^25.1.8",
+    "electron-vite": "^5.0.0",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.0"
+  },
+  "build": {
+    "appId": "com.xiaobai.accounting",
+    "productName": "小白记账",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "out/**/*"
+    ],
+    "asar": false,
+    "win": {
+      "target": "nsis",
+      "icon": "resources/icon.png"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "resources/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "language": "2052"
+    }
+  }
+}

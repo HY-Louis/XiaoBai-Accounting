@@ -1,0 +1,30 @@
+# Dependencies (re-download with npm install)
+node_modules/
+
+# Build output (re-generate with npm run build)
+out/
+dist/
+dist-electron/
+
+# Packaged app (re-generate with electron-builder)
+release/
+小白记账/
+
+# Claude Code internal
+.claude/
+
+# IDE and system files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+
+# Debug logs
+npm-debug.log*
+node_modules
