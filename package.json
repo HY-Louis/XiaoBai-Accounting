@@ -4,10 +4,10 @@
   "description": "小白记账 - 个人记账桌面应用",
   "main": "./out/main/index.js",
   "scripts": {
-    "dev": "set ELECTRON_RUN_AS_NODE= && electron-vite dev",
-    "build": "set ELECTRON_RUN_AS_NODE= && electron-vite build",
-    "preview": "set ELECTRON_RUN_AS_NODE= && electron-vite preview",
-    "package": "set ELECTRON_RUN_AS_NODE= && electron-vite build && electron-builder",
+    "dev": "node scripts/dev.cjs",
+    "build": "cmd /c \"set ELECTRON_RUN_AS_NODE= && electron-vite build\"",
+    "preview": "cmd /c \"set ELECTRON_RUN_AS_NODE= && electron-vite preview\"",
+    "package": "cmd /c \"set ELECTRON_RUN_AS_NODE= && electron-vite build && electron-builder\"",
     "typecheck": "tsc --noEmit",
     "postinstall": "node -e \"if(process.env.ELECTRON_RUN_AS_NODE){console.warn('\\n⚠️  WARNING: ELECTRON_RUN_AS_NODE is set! This will break Electron.\\n   Please remove it from your system environment variables.\\n')}\""
   },
@@ -23,6 +23,7 @@
     "@types/react-dom": "^18.3.1",
     "@types/uuid": "^10.0.0",
     "@vitejs/plugin-react": "^4.3.4",
+    "cross-env": "^10.1.0",
     "electron": "22.3.27",
     "electron-builder": "^25.1.8",
     "electron-vite": "^5.0.0",

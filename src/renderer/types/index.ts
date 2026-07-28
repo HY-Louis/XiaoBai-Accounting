@@ -22,13 +22,15 @@ export interface Subcategory {
   isDefault: boolean
 }
 
-/** A single expense record */
+/** A single expense/income record */
 export interface Expense {
   id: string
   /** Amount in 分 (cents). e.g., ¥12.50 = 1250 */
   amount: number
   categoryId: string
   subcategoryId: string
+  /** 'expense' or 'income' */
+  type: string
   /** Optional note / memo */
   note: string
   /** Expense date in YYYY-MM-DD format */
@@ -46,6 +48,7 @@ export interface CategoryRow {
   parentId: string | null
   sortOrder: number
   isDefault: number  // SQLite uses 0/1 for boolean
+  type: string        // 'expense' | 'income'
   createdAt: string
   updatedAt: string
   deletedAt: string | null
@@ -53,7 +56,9 @@ export interface CategoryRow {
 
 /** Monthly statistics summary */
 export interface MonthlyStats {
-  totalAmount: number  // in 分
+  totalAmount: number    // in 分 (expense only, for backwards compat)
+  totalExpense: number   // in 分
+  totalIncome: number    // in 分
   recordCount: number
   byCategory: CategoryStat[]
   byDay: DailyStat[]

@@ -29,11 +29,12 @@ export async function getCategories(): Promise<CategoryRow[]> {
   return (await invoke('db:getCategories')) as CategoryRow[]
 }
 
-/** Add a new expense */
+/** Add a new expense or income record */
 export async function addExpense(expense: {
   amount: number
   categoryId: string
   subcategoryId: string
+  type: string
   note: string
   expenseDate: string
 }): Promise<Expense | null> {
@@ -53,4 +54,19 @@ export async function deleteExpense(id: string): Promise<boolean> {
 /** Get monthly statistics */
 export async function getMonthlyStats(year: number, month: number): Promise<MonthlyStats> {
   return (await invoke('db:getMonthlyStats', year, month)) as MonthlyStats
+}
+
+/** Add a new custom category. Pass parentId to create a subcategory. */
+export async function addCategory(name: string, icon: string, parentId?: string | null): Promise<CategoryRow> {
+  return (await invoke('db:addCategory', name, icon, parentId)) as CategoryRow
+}
+
+/** Update a custom category's name and icon */
+export async function updateCategory(id: string, name: string, icon: string): Promise<boolean> {
+  return (await invoke('db:updateCategory', id, name, icon)) as boolean
+}
+
+/** Soft-delete a custom category */
+export async function deleteCategory(id: string): Promise<boolean> {
+  return (await invoke('db:deleteCategory', id)) as boolean
 }

@@ -444,5 +444,202 @@ body {
   justify-content: space-between;
 }
 
+/* ---- Category Manager ---- */
+.cat-mgr-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cat-mgr-row:last-child {
+  border-bottom: none;
+}
+
+.cat-mgr-row .cat-icon {
+  font-size: 22px;
+  width: 36px;
+  text-align: center;
+}
+
+.cat-mgr-row .cat-name {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.cat-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+}
+
+.cat-mgr-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.btn-cat-action {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  transition: background 0.15s;
+}
+
+.btn-cat-edit:hover {
+  background: var(--color-primary-light);
+}
+
+.btn-cat-delete:hover {
+  background: #FFF1F0;
+}
+
+/* ---- Emoji Grid (icon picker) ---- */
+.emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 6px;
+}
+
+.emoji-option {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background: var(--color-bg);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.emoji-option:hover {
+  background: var(--color-primary-light);
+}
+
+.emoji-option.selected {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+/* ---- Two-step picker back button ---- */
+.btn-back {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: none;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+  position: absolute;
+  left: 16px;
+}
+
+.btn-back:hover {
+  background: var(--color-bg);
+}
+
+/* ---- Tree expand button ---- */
+.btn-expand {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: none;
+  background: none;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  transition: transform 0.2s, background 0.15s;
+}
+
+.btn-expand:hover {
+  background: var(--color-bg);
+}
+
+/* ---- Subcategory list (tree view) ---- */
+.subcategory-list {
+  margin-left: 24px;
+  padding-left: 12px;
+  border-left: 2px solid var(--color-primary-light);
+}
+
+.sub-row {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sub-row:last-child {
+  border-bottom: none;
+}
+
+.sub-indent {
+  width: 28px;
+}
+
+.sub-empty {
+  padding: 10px 0;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+/* ---- Income / Expense type toggle ---- */
+.type-toggle {
+  display: flex;
+  background: var(--color-card);
+  border-radius: 10px;
+  padding: 4px;
+  box-shadow: var(--shadow);
+}
+
+.type-toggle-btn {
+  flex: 1;
+  padding: 10px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  color: var(--color-text-secondary);
+  transition: all 0.2s;
+}
+
+.type-toggle-btn.active {
+  background: var(--color-danger);
+  color: white;
+}
+
+.type-toggle-btn.income-active.active {
+  background: var(--color-success);
+}
+
+/* Income input color */
+.input-income {
+  color: var(--color-success) !important;
+}
+
+/* Income save button */
+.btn-income {
+  background: var(--color-success) !important;
+}
+
 .mt-12 { margin-top: 12px; }
 .mb-12 { margin-bottom: 12px; }

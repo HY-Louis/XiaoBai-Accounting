@@ -4,6 +4,9 @@ import {
   openDatabase,
   closeDatabase,
   getAllCategories,
+  addCategory,
+  updateCategory,
+  deleteCategory,
   addExpense,
   getExpenses,
   deleteExpense,
@@ -53,6 +56,18 @@ function registerIpcHandlers() {
 
   ipcMain.handle('db:getMonthlyStats', (_event, year: number, month: number) => {
     return getMonthlyStats(year, month)
+  })
+
+  ipcMain.handle('db:addCategory', (_event, name: string, icon: string, parentId?: string | null) => {
+    return addCategory(name, icon, parentId)
+  })
+
+  ipcMain.handle('db:updateCategory', (_event, id: string, name: string, icon: string) => {
+    return updateCategory(id, name, icon)
+  })
+
+  ipcMain.handle('db:deleteCategory', (_event, id: string) => {
+    return deleteCategory(id)
   })
 }
 

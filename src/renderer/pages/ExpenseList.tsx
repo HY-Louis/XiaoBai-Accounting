@@ -19,6 +19,7 @@ export default function ExpenseList({ categories, refreshKey }: ExpenseListProps
     `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
   )
   const [categoryFilter, setCategoryFilter] = useState('all')
+  const [typeFilter, setTypeFilter] = useState<'all' | 'expense' | 'income'>('all')
 
   useEffect(() => {
     setLoading(true)
@@ -38,15 +39,27 @@ export default function ExpenseList({ categories, refreshKey }: ExpenseListProps
     }
   }
 
-  // Get category info for an expense
-  const getCategoryInfo = (categoryId: string) => {
-    return categories.find(c => c.id === categoryId)
+  // Get category info for a record (primary + subcategory)
+  const getCategoryInfo = (record: Expense) => {
+    const primary = categories.find(c => c.id === record.categoryId)
+    const sub = record.subcategoryId
+      ? categories.find(c => c.id === record.subcategoryId)
+      : undefined
+    return { primary, sub }
   }
 
-  // Filter by category
-  const filteredExpenses = categoryFilter === 'all'
-    ? expenses
-    : expenses.filter(e => e.categoryId === categoryFilter)
+  // Filter by category and type
+  const filteredExpenses = expenses.filter(e => {
+    if (categoryFilter !== 'all' && e.categoryId !== categoryFilter) return false
+    if (typeFilter !== 'all' && e.type !== typeFilter) {
+      // For old records without type, treat as expense
+      if (typeFilter === 'expense' && !e.type) return true
+      if (typeFilter === 'income' && e.type === 'income') return true
+      if (typeFilter === 'expense' && e.type === 'expense') return true
+      return false
+    }
+    return true
+  })
 
   // Get primary categories for filter
   const primaryCategories = categories.filter(c => !c.parentId)
@@ -61,8 +74,15 @@ export default function ExpenseList({ categories, refreshKey }: ExpenseListProps
     })
   }
 
-  // Calculate monthly total
-  const monthlyTotal = filteredExpenses.reduce((sum, e) => sum + e.amount, 0)
+  // Calculate monthly totals
+  const summary = filteredExpenses.reduce(
+    (acc, e) => {
+      if (e.type === 'income') acc.income += e.amount
+      else acc.expense += e.amount
+      return acc
+    },
+    { expense: 0, income: 0 }
+  )
 
   return (
     <div>
@@ -123,10 +143,42 @@ export default function ExpenseList({ categories, refreshKey }: ExpenseListProps
         ))}
       </div>
 
-      {/* Monthly total */}
+      {/* Type filter */}
+      <div style={{ padding: '0 0 12px', overflowX: 'auto', whiteSpace: 'nowrap' }}>
+        {(['all', 'expense', 'income'] as const).map(t => (
+          <button
+            key={t}
+            className="btn"
+            style={{
+              padding: '6px 14px', fontSize: 13, marginRight: 8,
+              background: typeFilter === t ? 'var(--color-primary)' : 'var(--color-card)',
+              color: typeFilter === t ? 'white' : 'var(--color-text)',
+              border: typeFilter === t ? undefined : '1px solid var(--color-border)',
+              borderRadius: 20,
+            }}
+            onClick={() => setTypeFilter(t)}
+          >
+            {t === 'all' ? '全部' : t === 'expense' ? '支出' : '收入'}
+          </button>
+        ))}
+      </div>
+
+      {/* Monthly summary */}
       <div className="card" style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>本月合计</div>
-        <div style={{ fontSize: 24, fontWeight: 700, marginTop: 4 }}>{formatFen(monthlyTotal)}</div>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 24 }}>
+          <div>
+            <div style={{ fontSize: 12, color: 'var(--color-text-secondary)' }}>支出</div>
+            <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--color-danger)' }}>
+              {formatFen(summary.expense)}
+            </div>
+          </div>
+          <div>
+            <div style={{ fontSize: 12, color: 'var(--color-text-secondary)' }}>收入</div>
+            <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--color-success)' }}>
+              {formatFen(summary.income)}
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Expense list */}
@@ -141,27 +193,31 @@ export default function ExpenseList({ categories, refreshKey }: ExpenseListProps
         </div>
       ) : (
         <div>
-          {filteredExpenses.map(expense => {
-            const cat = getCategoryInfo(expense.categoryId)
+          {filteredExpenses.map(record => {
+            const { primary: cat, sub } = getCategoryInfo(record)
+            const isIncome = record.type === 'income'
             return (
-              <div key={expense.id} className="expense-item">
+              <div key={record.id} className="expense-item">
                 <div className="expense-info">
                   <div className="expense-icon">
-                    {cat?.icon || '📌'}
+                    {sub?.icon || cat?.icon || '📌'}
                   </div>
                   <div className="expense-detail">
                     <span className="expense-category">
                       {cat?.name || '未知'}
+                      {sub ? ` › ${sub.name}` : ''}
                     </span>
                     <span className="expense-date">
-                      {formatDisplayDate(expense.expenseDate)}
-                      {expense.note && ` · ${expense.note}`}
+                      {formatDisplayDate(record.expenseDate)}
+                      {record.note && ` · ${record.note}`}
                     </span>
                   </div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span className="expense-amount">{formatFen(expense.amount)}</span>
-                  <button className="btn btn-danger" onClick={() => handleDelete(expense.id)}>
+                  <span className="expense-amount" style={{ color: isIncome ? 'var(--color-success)' : 'var(--color-danger)' }}>
+                    {isIncome ? '+' : '-'}{formatFen(record.amount)}
+                  </span>
+                  <button className="btn btn-danger" onClick={() => handleDelete(record.id)}>
                     删除
                   </button>
                 </div>

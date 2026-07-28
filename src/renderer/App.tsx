@@ -5,8 +5,9 @@ import Layout from './components/Layout'
 import AddExpense from './pages/AddExpense'
 import ExpenseList from './pages/ExpenseList'
 import Statistics from './pages/Statistics'
+import CategoryManager from './pages/CategoryManager'
 
-type Page = 'add' | 'list' | 'stats'
+type Page = 'add' | 'list' | 'stats' | 'manage'
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('add')
@@ -20,6 +21,10 @@ export default function App() {
   useEffect(() => {
     getCategories().then(setCategories).catch(console.error)
   }, [])
+
+  const reloadCategories = () => {
+    getCategories().then(setCategories).catch(console.error)
+  }
 
   const renderPage = () => {
     switch (currentPage) {
@@ -42,6 +47,13 @@ export default function App() {
           <Statistics
             categories={categories}
             refreshKey={refreshKey}
+          />
+        )
+      case 'manage':
+        return (
+          <CategoryManager
+            categories={categories}
+            onChanged={reloadCategories}
           />
         )
     }

@@ -87,14 +87,29 @@ export default function Statistics({ refreshKey }: StatisticsProps) {
       ) : !stats || stats.recordCount === 0 ? (
         <div className="empty-state">
           <div className="empty-icon">📊</div>
-          <div className="empty-text">本月暂无支出数据</div>
+          <div className="empty-text">本月暂无数据</div>
         </div>
       ) : (
         <>
-          {/* Total */}
+          {/* Summary */}
           <div className="stat-total">
-            <div className="total-label">总支出 · {stats.recordCount} 笔</div>
-            <div className="total-amount">{formatFen(stats.totalAmount)}</div>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 24 }}>
+              <div>
+                <div style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>支出</div>
+                <div style={{ fontSize: 28, fontWeight: 800, color: 'var(--color-danger)' }}>
+                  {formatFen(stats.totalExpense || stats.totalAmount)}
+                </div>
+              </div>
+              <div>
+                <div style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>收入</div>
+                <div style={{ fontSize: 28, fontWeight: 800, color: 'var(--color-success)' }}>
+                  {formatFen(stats.totalIncome || 0)}
+                </div>
+              </div>
+            </div>
+            <div style={{ fontSize: 13, color: 'var(--color-text-secondary)', marginTop: 8 }}>
+              {stats.recordCount} 笔记录
+            </div>
           </div>
 
           {/* Pie Chart: Category breakdown */}
