@@ -15,6 +15,11 @@ const tabs: { key: Page; icon: string; label: string }[] = [
   { key: 'game', icon: '🎮', label: '游戏' },
 ]
 
+/**
+ * 应用外壳布局——底部 5 个标签页的导航框架。
+ * 就像手机 app 的底部导航栏，点不同的图标切换到不同功能页面。
+ * 5 个标签页：记账 💰 | 账单 📋 | 统计 📊 | 管理 ⚙️ | 游戏 🎮
+ */
 export default function Layout({ currentPage, onNavigate, children }: LayoutProps) {
   return (
     <>

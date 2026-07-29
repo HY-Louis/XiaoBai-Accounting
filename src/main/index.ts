@@ -15,6 +15,15 @@ import {
 
 let mainWindow: BrowserWindow | null = null
 
+/**
+ * 创建应用主窗口。
+ * 窗口尺寸设计为手机比例（420×750），方便单手操作，
+ * 就像把手机记账 app 搬到了电脑桌面上。
+ *
+ * 🔒 安全配置说明：
+ * - nodeIntegration: false → 网页部分无法直接使用 Node.js（防止恶意代码）
+ * - contextIsolation: true  → 网页和系统底层完全隔离（Electron 安全最佳实践）
+ */
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 420,
@@ -37,6 +46,11 @@ function createWindow() {
   }
 }
 
+/**
+ * 注册数据库操作的通信通道（IPC Handlers）。
+ * 网页部分通过 preload 脚本调用这些通道来操作数据库，
+ * 每个通道对应一个数据库函数——就像电话总机，把来电转接到正确的部门。
+ */
 function registerIpcHandlers() {
   ipcMain.handle('db:getCategories', () => {
     return getAllCategories()

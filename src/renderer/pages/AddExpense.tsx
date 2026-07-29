@@ -12,19 +12,37 @@ interface AddExpenseProps {
 
 type RecordType = 'expense' | 'income'
 
+/**
+ * 记账页面——app 的首页，也是最核心的功能页。
+ *
+ * 页面从上到下分为四个区域：
+ * 1. 月度摘要（收入 / 支出 / 结余）
+ * 2. 类型切换（支出 or 收入）
+ * 3. 记账表单（金额 → 分类 → 备注 → 日期 → 保存按钮）
+ * 4. Toast 消息提示（保存成功/失败后弹出，2秒消失）
+ */
 export default function AddExpense({ categories, onSaved }: AddExpenseProps) {
+  // 当前记账类型：支出还是收入
   const [recordType, setRecordType] = useState<RecordType>('expense')
+  // 用户输入的金额文本（暂不转换，保存时再转成"分"）
   const [amountStr, setAmountStr] = useState('')
+  // 选中的一级分类和二级子类 ID
   const [categoryId, setCategoryId] = useState('')
   const [subcategoryId, setSubcategoryId] = useState('')
+  // 可选备注
   const [note, setNote] = useState('')
+  // 记账日期，默认今天
   const [expenseDate, setExpenseDate] = useState(today())
+  // 是否正在保存（防止重复点击保存按钮）
   const [saving, setSaving] = useState(false)
+  // Toast 消息提示状态
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
+  // 当月累计支出金额（单位：分），用于页面顶部月度摘要显示
   const [monthlyExpense, setMonthlyExpense] = useState(0)
+  // 当月累计收入金额（单位：分）
   const [monthlyIncome, setMonthlyIncome] = useState(0)
 
-  // Load this month's totals
+  // 页面加载时获取当月汇总数据（收入总额 + 支出总额）
   useEffect(() => {
     const now = new Date()
     const monthStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
@@ -53,6 +71,11 @@ export default function AddExpense({ categories, onSaved }: AddExpenseProps) {
     setSubcategoryId(subId)
   }
 
+  /**
+   * 保存记账记录。
+   * 流程：校验金额 → 校验分类 → 写入数据库 → 清空表单 → 更新月度汇总 → 通知父页面刷新
+   * 如果金额为空/无效或分类未选择，会弹出错误提示阻止保存。
+   */
   const handleSave = async () => {
     const amountInFen = parseAmountToFen(amountStr)
     if (amountInFen === null || amountInFen <= 0) {

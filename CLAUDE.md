@@ -41,6 +41,25 @@ Examples of decisions that do NOT require user approval:
 
 ---
 
+## ⚠️ CRITICAL RULE: Git Commit Must Go Through Security Gate
+
+**Never directly execute `git commit` or `/git-save` when the user asks to commit code.**
+
+When the user says anything like "提交代码", "帮我提交", "commit", "存档" etc., you **MUST** invoke `/gitcommit-agent` instead. This is a non-negotiable security requirement — just like you wouldn't skip airport security before boarding a plane.
+
+The `/gitcommit-agent` flow:
+1. Run unit tests (tester agent) — all tests must pass
+2. Run quality audit (quality-engineer agent) — overall score ≥ 60 and 0 critical issues
+3. Verify anti-tampering check_id
+4. If both pass → git add → commit → push → cleanup checkpoint files
+5. If either fails → BLOCK the commit, report why
+
+**Exception:** Only if the user explicitly says `--force` (e.g., "/gitcommit-agent --force"), skip checks and proceed directly.
+
+**Rationale:** This ensures every commit has been tested and audited. Without this rule, the user might forget to invoke the safety check manually.
+
+---
+
 ## Confirmed Tech Stack
 
 | Technology | Role (Plain Explanation) |
