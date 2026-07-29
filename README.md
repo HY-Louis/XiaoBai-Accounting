@@ -8,7 +8,7 @@
 
 ## 📸 功能概览
 
-应用包含 4 个主要页面，通过底部导航栏切换：
+应用包含 5 个主要页面，通过底部导航栏切换：
 
 | 页面 | 功能 |
 |------|------|
@@ -16,6 +16,7 @@
 | 📋 **账单** | 查看历史记录，按月筛选，按分类筛选，按支出/收入/全部筛选 |
 | 📊 **统计** | 月度收支汇总，饼图看支出分布，柱状图看每日趋势 |
 | ⚙️ **管理** | 自定义分类——可以增加、修改、删除大类和小类 |
+| 🎮 **游戏** | 内置贪吃蛇小游戏，方向键/WASD 控制，分数越高速度越快 |
 
 ### 核心亮点
 
@@ -25,6 +26,7 @@
 - 🎨 **红绿配色**：支出红色、收入绿色，金额一目了然
 - 💾 **数据完全本地**：使用 SQLite 数据库存储，不联网、不上传，隐私安全
 - ✏️ **分类可自定义**：不满意默认分类？可以随时增删改，完全按自己的习惯来
+- 🐍 **内置贪吃蛇**：工作学习之余放松一下，最高分本地保存
 
 ---
 
@@ -78,17 +80,18 @@
 │   └── renderer/                      # React 前端应用（界面层）
 │       ├── index.html                 # HTML 入口
 │       ├── main.tsx                   # React 入口
-│       ├── App.tsx                    # 根组件 — 页面路由（4 个 tab）
+│       ├── App.tsx                    # 根组件 — 页面路由（5 个 tab）
 │       ├── api/
 │       │   └── db.ts                  # 前端调用数据库的 API 层
 │       ├── components/                # 可复用的 UI 组件
 │       │   ├── Layout.tsx             # 底部导航栏布局
 │       │   └── CategoryPicker.tsx     # 两级分类选择器（弹出式）
-│       ├── pages/                     # 4 个主页面
+│       ├── pages/                     # 5 个主页面
 │       │   ├── AddExpense.tsx         # 💰 记账页面
 │       │   ├── ExpenseList.tsx        # 📋 账单列表页面
 │       │   ├── Statistics.tsx         # 📊 统计报表页面
-│       │   └── CategoryManager.tsx    # ⚙️ 分类管理页面
+│       │   ├── CategoryManager.tsx    # ⚙️ 分类管理页面
+│       │   └── SnakeGame.tsx          # 🎮 贪吃蛇游戏
 │       ├── data/
 │       │   └── categories.ts          # 默认分类数据（8 个支出大类 + 5 个收入大类）
 │       ├── utils/
@@ -163,8 +166,8 @@
 
 ```bash
 # 1. 克隆项目
-git clone https://github.com/LIUHONGYANG123/-APP.git
-cd -APP
+git clone https://github.com/LIUHONGYANG123/XiaoBai-Accounting.git
+cd XiaoBai-Accounting
 
 # 2. 安装依赖（第一次需要，之后不用）
 npm install
@@ -290,6 +293,8 @@ React 组件 → 调用 api/db.ts 里的函数
 |------|------|
 | `v1-初始化项目` | 项目骨架搭建，Electron + React + SQLite 基础架构，记账/账单/统计三个页面 |
 | `v2-分类系统升级和收入功能` | 两级分类系统，收入功能，分类管理页面，日期可修改 |
+| `v3-添加README文档` | 补充项目 README 说明文档 |
+| `v4-贪吃蛇小游戏` | 新增贪吃蛇游戏，Canvas 绘制，HiDPI 支持，代码审查修复 |
 
 ---
 
