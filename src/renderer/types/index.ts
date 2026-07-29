@@ -86,6 +86,9 @@ export interface ExpenseFormData {
   expenseDate: string
 }
 
+/** Available app pages (used by bottom nav and page routing) */
+export type Page = 'add' | 'list' | 'stats' | 'manage' | 'game'
+
 /** IPC channel names for type safety */
 export const IPC_CHANNELS = {
   GET_EXPENSES: 'db:getExpenses',

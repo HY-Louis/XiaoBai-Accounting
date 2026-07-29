@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import type { CategoryRow } from './types'
+import type { CategoryRow, Page } from './types'
 import { getCategories } from './api/db'
 import Layout from './components/Layout'
 import AddExpense from './pages/AddExpense'
@@ -7,8 +7,6 @@ import ExpenseList from './pages/ExpenseList'
 import Statistics from './pages/Statistics'
 import CategoryManager from './pages/CategoryManager'
 import SnakeGame from './pages/SnakeGame'
-
-type Page = 'add' | 'list' | 'stats' | 'manage' | 'game'
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('add')

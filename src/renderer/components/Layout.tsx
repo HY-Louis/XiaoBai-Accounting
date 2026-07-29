@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react'
-
-type Page = 'add' | 'list' | 'stats' | 'manage' | 'game'
+import type { Page } from '../types'
 
 interface LayoutProps {
   currentPage: Page
