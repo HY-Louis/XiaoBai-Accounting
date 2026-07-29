@@ -6,8 +6,9 @@ import AddExpense from './pages/AddExpense'
 import ExpenseList from './pages/ExpenseList'
 import Statistics from './pages/Statistics'
 import CategoryManager from './pages/CategoryManager'
+import SnakeGame from './pages/SnakeGame'
 
-type Page = 'add' | 'list' | 'stats' | 'manage'
+type Page = 'add' | 'list' | 'stats' | 'manage' | 'game'
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('add')
@@ -56,6 +57,8 @@ export default function App() {
             onChanged={reloadCategories}
           />
         )
+      case 'game':
+        return <SnakeGame />
     }
   }
 

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-type Page = 'add' | 'list' | 'stats' | 'manage'
+type Page = 'add' | 'list' | 'stats' | 'manage' | 'game'
 
 interface LayoutProps {
   currentPage: Page
@@ -13,6 +13,7 @@ const tabs: { key: Page; icon: string; label: string }[] = [
   { key: 'list', icon: '📋', label: '账单' },
   { key: 'stats', icon: '📊', label: '统计' },
   { key: 'manage', icon: '⚙️', label: '管理' },
+  { key: 'game', icon: '🎮', label: '游戏' },
 ]
 
 export default function Layout({ currentPage, onNavigate, children }: LayoutProps) {
