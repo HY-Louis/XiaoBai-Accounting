@@ -32,9 +32,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # 4. 构建 + 打包 + 发布（核心步骤）
+      # 4. 构建（用 npm run 方式，npm 会自动找到项目里的构建工具）
+      #    注意：不能直接写 electron-vite，因为云服务器上不会自动加入搜索路径
+      - name: Build
+        run: npm run build
+
+      # 5. 打包 + 发布（npx 会自动找到项目本地安装的 electron-builder）
       #    --publish always 表示构建成功后自动创建 Release 并上传安装包
-      - name: Build and publish
-        run: cmd /c "set ELECTRON_RUN_AS_NODE= && electron-vite build && electron-builder --publish always"
+      - name: Package and publish
+        run: npx electron-builder --publish always
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
