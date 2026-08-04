@@ -1,6 +1,6 @@
 {
   "name": "xiaobai-accounting",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "小白记账 - 个人记账桌面应用",
   "main": "./out/main/index.js",
   "scripts": {
