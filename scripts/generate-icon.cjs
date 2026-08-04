@@ -92,7 +92,9 @@ function createChunk(type, data) {
 }
 
 // Generate the icon
-const png = createPNG(256, 256, 79, 110, 247)
+// 1024x1024：Windows 的 .ico 图标 256px 就够，但 Mac 的 icns 要求源图至少 512px，
+// 用 1024 保证两个平台都能用
+const png = createPNG(1024, 1024, 79, 110, 247)
 const outputPath = path.join(__dirname, '..', 'resources', 'icon.png')
 
 if (!fs.existsSync(path.dirname(outputPath))) {
