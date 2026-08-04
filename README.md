@@ -1,16 +1,24 @@
 # 💰 小白记账 (XiaoBai Accounting)
 
-一个简洁、好用的个人记账桌面应用，专为普通用户设计。无需联网，数据完全保存在本地电脑上。
+一个简洁、好用的个人记账桌面应用，专为普通用户设计。**无需联网，数据完全保存在本地电脑上**，隐私安全。
 
-支持 **Windows** 和 **Mac**。
+![Windows](https://img.shields.io/badge/Windows-%E2%9C%93-0078D6)
+![Mac](https://img.shields.io/badge/Mac-%E2%9C%93-000000)
+![版本](https://img.shields.io/github/v/release/LIUHONGYANG123/XiaoBai-Accounting)
+![下载量](https://img.shields.io/github/downloads/LIUHONGYANG123/XiaoBai-Accounting/total)
 
 ---
 
 ## 📥 下载安装
 
-点击右侧 **Releases**（或 [点这里](https://github.com/LIUHONGYANG123/XiaoBai-Accounting/releases)），选择最新版本，下载 `小白记账 Setup x.x.x.exe` 安装包，双击安装即可使用。
+**点击右侧 Releases（或 [点这里](https://github.com/LIUHONGYANG123/XiaoBai-Accounting/releases)），选择最新版本下载即可：**
 
-> 💡 也可以点击仓库顶部的绿色 **Code** 按钮 → 下载 ZIP，手动运行（需要先安装 Node.js）。
+| 你的系统 | 下载文件 | 安装方式 |
+|---------|---------|---------|
+| 🪟 Windows | `xiaobai-accounting-setup-x.x.x.exe` | 双击 → 选择安装目录 → 完成 |
+| 🍎 Mac | `小白记账-x.x.x.dmg` | 打开 → 拖入"应用程序"文件夹 |
+
+> ⚠️ **Windows 用户注意**：首次运行时可能弹出蓝色"未知发布者"警告——这是因为个人开发者没有购买代码签名证书（每年约 2000 元）。点击 **"更多信息" → "仍要运行"** 即可正常安装，软件是安全的。
 
 ---
 
@@ -26,12 +34,11 @@
 | ⚙️ **管理** | 自定义分类——可以增加、修改、删除大类和小类 |
 | 🎮 **游戏** | 内置贪吃蛇小游戏，方向键/WASD 控制，分数越高速度越快 |
 
-### 核心亮点
+### ✨ 核心亮点
 
 - 🎯 **两级分类系统**：大类（餐饮/交通/购物…）→ 子类（三餐/公交地铁/衣物…），选分类时分两步操作，清晰直观
 - 💵 **收入 + 支出双模式**：同一页面切换，收入显示绿色，支出显示红色，一眼分清
 - 📅 **日期可修改**：昨天的账忘了记？日期可以往前改，补录方便
-- 🎨 **红绿配色**：支出红色、收入绿色，金额一目了然
 - 💾 **数据完全本地**：使用 SQLite 数据库存储，不联网、不上传，隐私安全
 - ✏️ **分类可自定义**：不满意默认分类？可以随时增删改，完全按自己的习惯来
 - 🐍 **内置贪吃蛇**：工作学习之余放松一下，最高分本地保存
@@ -163,40 +170,6 @@
 
 ---
 
-## 🚀 本地运行
-
-### 环境要求
-
-- **Node.js 18+** （[下载地址](https://nodejs.org)）
-- **Git**（可选，用于版本管理）
-
-### 安装和启动
-
-```bash
-# 1. 克隆项目
-git clone https://github.com/LIUHONGYANG123/XiaoBai-Accounting.git
-cd XiaoBai-Accounting
-
-# 2. 安装依赖（第一次需要，之后不用）
-npm install
-
-# 3. 启动开发模式
-npm run dev
-```
-
-第 3 步会启动 Electron 窗口，代码修改后会自动刷新界面。
-
-### 其他命令
-
-| 命令 | 作用 |
-|------|------|
-| `npm run dev` | 启动开发模式（热更新） |
-| `npm run build` | 构建生产版本 |
-| `npm run package` | 打包成安装包（Windows: .exe, Mac: .dmg） |
-| `npm run typecheck` | 检查 TypeScript 类型错误 |
-
----
-
 ## 📝 开发思路与设计决策
 
 ### 1. 架构设计：Electron 的三层结构
@@ -274,6 +247,34 @@ React 组件 → 调用 api/db.ts 里的函数
 
 ---
 
+## 🛠️ 开发者命令（可选）
+
+> 💡 普通用户不需要看这部分——直接下载安装包使用即可。以下内容仅供想参与开发的人参考。
+
+**环境要求**：Node.js 18+（[下载地址](https://nodejs.org)）
+
+```bash
+# 1. 克隆项目
+git clone https://github.com/LIUHONGYANG123/XiaoBai-Accounting.git
+cd XiaoBai-Accounting
+
+# 2. 安装依赖（第一次需要，之后不用）
+npm install
+
+# 3. 启动开发模式（代码修改后自动刷新）
+npm run dev
+```
+
+| 命令 | 作用 |
+|------|------|
+| `npm run dev` | 启动开发模式（热更新） |
+| `npm run build` | 构建生产版本 |
+| `npm run package` | 本地打包成安装包（Windows: .exe, Mac: .dmg） |
+| `npm run typecheck` | 检查 TypeScript 类型错误 |
+| `npm run test` | 运行单元测试 |
+
+---
+
 ## 🔧 已知问题
 
 ### ELECTRON_RUN_AS_NODE 环境变量
@@ -299,10 +300,9 @@ React 组件 → 调用 api/db.ts 里的函数
 
 | 标签 | 内容 |
 |------|------|
-| `v1-初始化项目` | 项目骨架搭建，Electron + React + SQLite 基础架构，记账/账单/统计三个页面 |
-| `v2-分类系统升级和收入功能` | 两级分类系统，收入功能，分类管理页面，日期可修改 |
-| `v3-添加README文档` | 补充项目 README 说明文档 |
-| `v4-贪吃蛇小游戏` | 新增贪吃蛇游戏，Canvas 绘制，HiDPI 支持，代码审查修复 |
+| `v1.1.0` | **支持 Mac 发布** — 双平台安装包（Windows .exe + Mac .dmg），GitHub Actions 自动打包 |
+| `v1.0.0` | **首个正式发布** — Windows 安装包，GitHub Releases 一键下载安装 |
+| 早期版本 | 开发历程：`v1-初始化项目` → `v2-分类系统升级和收入功能` → `v3-添加README文档` → `v4-贪吃蛇小游戏` |
 
 ---
 
