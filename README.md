@@ -6,6 +6,14 @@
 
 ---
 
+## 📥 下载安装
+
+点击右侧 **Releases**（或 [点这里](https://github.com/LIUHONGYANG123/XiaoBai-Accounting/releases)），选择最新版本，下载 `小白记账 Setup x.x.x.exe` 安装包，双击安装即可使用。
+
+> 💡 也可以点击仓库顶部的绿色 **Code** 按钮 → 下载 ZIP，手动运行（需要先安装 Node.js）。
+
+---
+
 ## 📸 功能概览
 
 应用包含 5 个主要页面，通过底部导航栏切换：

@@ -210,7 +210,8 @@ export function addCategory(name: string, icon: string, parentId?: string | null
   stmt.free()
   saveToDisk()
 
-  return { id, name, icon, parentId: parentId || null, sortOrder, isDefault: 0, createdAt: ts, updatedAt: ts, deletedAt: null }
+  // type 字段与数据库 DEFAULT 'expense' 一致（新建分类默认是支出类）
+  return { id, name, icon, parentId: parentId || null, sortOrder, isDefault: 0, type: 'expense', createdAt: ts, updatedAt: ts, deletedAt: null }
 }
 
 /**

@@ -24,6 +24,7 @@
   "devDependencies": {
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "@types/sql.js": "^1.4.11",
     "@types/uuid": "^10.0.0",
     "@vitejs/plugin-react": "^4.3.4",
     "@vitest/ui": "^4.1.10",
@@ -57,6 +58,13 @@
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "language": "2052"
-    }
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "LIUHONGYANG123",
+        "repo": "XiaoBai-Accounting"
+      }
+    ]
   }
 }

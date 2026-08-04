@@ -11,7 +11,6 @@ import { contextBridge, ipcRenderer } from 'electron'
  * 通俗理解：餐厅的服务员（网页）只能通过传菜口（本文件）向厨房（数据库）
  * 传递特定的菜单指令，不能直接冲进厨房乱翻东西。
  */
-import { contextBridge, ipcRenderer } from 'electron'
 
 contextBridge.exposeInMainWorld('electronAPI', {
   /**

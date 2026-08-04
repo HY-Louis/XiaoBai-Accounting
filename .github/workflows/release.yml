@@ -1,0 +1,40 @@
+# 小白记账 自动打包发布工作流
+# 触发方式：推送 v 开头的标签（如 v1.0.0、v1.1.0）时自动执行
+# 功能：在 GitHub 云端 Windows 服务器上打包生成安装包，并发布到 Releases 页面
+
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+# 授权：允许创建 Release 并上传安装包文件
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest   # Windows 云服务器（生成 .exe 安装包）
+    steps:
+      # 1. 把代码复制到云服务器
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. 安装 Node.js（打包工具的运行环境）
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+
+      # 3. 安装项目依赖
+      - name: Install dependencies
+        run: npm install
+
+      # 4. 构建 + 打包 + 发布（核心步骤）
+      #    --publish always 表示构建成功后自动创建 Release 并上传安装包
+      - name: Build and publish
+        run: cmd /c "set ELECTRON_RUN_AS_NODE= && electron-vite build && electron-builder --publish always"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
