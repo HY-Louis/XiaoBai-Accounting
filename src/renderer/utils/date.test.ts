@@ -7,6 +7,7 @@ import {
   toDateString,
   today,
   toISOString,
+  now,
   formatDisplayDate,
   formatMonthLabel,
   getMonthRange,
@@ -64,6 +65,26 @@ describe('toISOString — ISO 格式', () => {
     const result = toISOString(d)
     expect(result).toContain('2026-01-01')
     expect(result).toContain('T')
+  })
+})
+
+// ============================================================
+// now — 当前 ISO 8601 时间戳
+// ============================================================
+describe('now — 当前时间戳', () => {
+  // ✅ 正常情况
+  it('返回标准 ISO 8601 格式（含 T 和 Z）', () => {
+    const result = now()
+    expect(result).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/)
+    expect(result.endsWith('Z')).toBe(true)
+  })
+
+  it('与 new Date().toISOString() 结果一致', () => {
+    const before = new Date().toISOString()
+    const result = now()
+    const after = new Date().toISOString()
+    // now() 应该落在 before 和 after 之间（同一秒内基本相等，允许毫秒级波动）
+    expect(result >= before && result <= after).toBe(true)
   })
 })
 

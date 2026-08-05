@@ -4,8 +4,8 @@
 
 ![Windows](https://img.shields.io/badge/Windows-%E2%9C%93-0078D6)
 ![Mac](https://img.shields.io/badge/Mac-%E2%9C%93-000000)
-![版本](https://img.shields.io/github/v/release/HY-Louis/XiaoBai-Accounting)
-![下载量](https://img.shields.io/github/downloads/HY-Louis/XiaoBai-Accounting/total)
+![版本](https://img.shields.io/github/v/tag/HY-Louis/XiaoBai-Accounting)
+![免费](https://img.shields.io/badge/免费-开源使用-brightgreen)
 
 ---
 
