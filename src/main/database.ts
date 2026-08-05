@@ -316,8 +316,12 @@ export function deleteExpense(id: string): boolean {
   if (!db) throw new Error('DB not opened')
   const ts = now()
   db.run('UPDATE expenses SET deleted_at = ?, updated_at = ? WHERE id = ? AND deleted_at IS NULL', [ts, ts, id])
+  // 注意：必须先取 getRowsModified() 再 saveToDisk()。
+  // saveToDisk() 内部会调用 db.export()，而 export 会把 sql.js 的"修改行数"计数器重置为 0，
+  // 如果先保存再取值，返回值永远是 false（删除实际成功也会误报失败）。
+  const rowsAffected = db.getRowsModified()
   saveToDisk()
-  return db.getRowsModified() > 0
+  return rowsAffected > 0
 }
 
 /**

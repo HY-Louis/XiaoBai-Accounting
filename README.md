@@ -4,14 +4,14 @@
 
 ![Windows](https://img.shields.io/badge/Windows-%E2%9C%93-0078D6)
 ![Mac](https://img.shields.io/badge/Mac-%E2%9C%93-000000)
-![版本](https://img.shields.io/github/v/release/LIUHONGYANG123/XiaoBai-Accounting)
-![下载量](https://img.shields.io/github/downloads/LIUHONGYANG123/XiaoBai-Accounting/total)
+![版本](https://img.shields.io/github/v/release/HY-Louis/XiaoBai-Accounting)
+![下载量](https://img.shields.io/github/downloads/HY-Louis/XiaoBai-Accounting/total)
 
 ---
 
 ## 📥 下载安装
 
-**点击右侧 Releases（或 [点这里](https://github.com/LIUHONGYANG123/XiaoBai-Accounting/releases)），选择最新版本下载即可：**
+**点击右侧 Releases（或 [点这里](https://github.com/HY-Louis/XiaoBai-Accounting/releases)），选择最新版本下载即可：**
 
 | 你的系统 | 下载文件 | 安装方式 |
 |---------|---------|---------|
@@ -255,7 +255,7 @@ React 组件 → 调用 api/db.ts 里的函数
 
 ```bash
 # 1. 克隆项目
-git clone https://github.com/LIUHONGYANG123/XiaoBai-Accounting.git
+git clone https://github.com/HY-Louis/XiaoBai-Accounting.git
 cd XiaoBai-Accounting
 
 # 2. 安装依赖（第一次需要，之后不用）
