@@ -18,19 +18,24 @@ jobs:
     # 矩阵构建：同一套步骤分别在 Windows 和 Mac 服务器上各跑一遍
     # Windows 服务器生成 .exe 安装包，Mac 服务器生成 .dmg 安装包
     strategy:
+      # 不要因为一台失败就取消另一台——万一 Mac 出问题，
+      # Windows 的安装包仍然能正常打出来并上传。
+      fail-fast: false
       matrix:
         os: [windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
       # 1. 把代码复制到云服务器
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # 2. 安装 Node.js（打包工具的运行环境）
+      #    必须 20 以上：electron-vite 要求 20.19+、cross-env 和 vitest 要求 20+。
+      #    这里用 22（长期支持版），比最低要求高一点，留出余量。
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: 18
+          node-version: 22
           cache: npm
 
       # 3. 安装项目依赖
