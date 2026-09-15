@@ -7,6 +7,7 @@ import ExpenseList from './pages/ExpenseList'
 import Statistics from './pages/Statistics'
 import CategoryManager from './pages/CategoryManager'
 import SnakeGame from './pages/SnakeGame'
+import MonthHeatmapCard from './components/side-panels/MonthHeatmapCard'
 
 /**
  * App 根组件——整个应用的大脑。
@@ -52,6 +53,7 @@ export default function App() {
           <ExpenseList
             categories={categories}
             refreshKey={refreshKey}
+            onDeleted={triggerRefresh}
           />
         )
       case 'stats':
@@ -74,7 +76,11 @@ export default function App() {
   }
 
   return (
-    <Layout currentPage={currentPage} onNavigate={setCurrentPage}>
+    <Layout
+      currentPage={currentPage}
+      onNavigate={setCurrentPage}
+      aside={<MonthHeatmapCard refreshKey={refreshKey} />}
+    >
       {renderPage()}
     </Layout>
   )

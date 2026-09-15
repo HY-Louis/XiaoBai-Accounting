@@ -1,5 +1,6 @@
 import initSqlJs, { Database as SqlJsDatabase } from 'sql.js'
-import { v4 as uuidv4 } from 'uuid'
+// Node 自带的 UUID 生成器（Electron 22 内置的 Node 16 已支持），不依赖第三方 uuid 库
+import { randomUUID } from 'crypto'
 import * as fs from 'fs'
 import * as path from 'path'
 import type { Expense, CategoryRow, MonthlyStats, CategoryStat, DailyStat } from '../renderer/types'
@@ -190,7 +191,7 @@ export function getAllCategories(): CategoryRow[] {
  */
 export function addCategory(name: string, icon: string, parentId?: string | null): CategoryRow {
   if (!db) throw new Error('DB not opened')
-  const id = uuidv4()
+  const id = randomUUID()
   const ts = now()
 
   // Get the next sort_order for this level
@@ -275,7 +276,7 @@ export function deleteCategory(id: string): boolean {
  * @returns 创建好的记账记录，包含自动生成的 ID 和时间戳
  */
 export function addExpense(e: { amount: number; categoryId: string; subcategoryId: string; type: string; note: string; expenseDate: string }): Expense {
-  const id = uuidv4()
+  const id = randomUUID()
   const ts = now()
   exec(
     'INSERT INTO expenses (id, amount, category_id, subcategory_id, type, note, expense_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',

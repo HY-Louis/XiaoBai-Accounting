@@ -7,9 +7,11 @@ import { formatDisplayDate } from '../utils/date'
 interface ExpenseListProps {
   categories: CategoryRow[]
   refreshKey: number
+  /** Called after a successful delete so other views (e.g. the heatmap) can refresh */
+  onDeleted?: () => void
 }
 
-export default function ExpenseList({ categories, refreshKey }: ExpenseListProps) {
+export default function ExpenseList({ categories, refreshKey, onDeleted }: ExpenseListProps) {
   const [expenses, setExpenses] = useState<Expense[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -34,6 +36,7 @@ export default function ExpenseList({ categories, refreshKey }: ExpenseListProps
     try {
       await deleteExpense(id)
       setExpenses(prev => prev.filter(e => e.id !== id))
+      onDeleted?.()
     } catch {
       alert('删除失败，请重试')
     }

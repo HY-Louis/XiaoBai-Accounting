@@ -225,3 +225,61 @@ describe('月度统计 getMonthlyStats', () => {
     expect(stats.byDay).toEqual([])
   })
 })
+
+// ============================================================
+// ID 生成 — 由第三方 uuid 库改为 Node 内置 crypto.randomUUID
+// ============================================================
+describe('ID 生成（Node 内置 randomUUID）', () => {
+  // 标准 UUID v4 的长相：8-4-4-4-12 位十六进制，第三段以 4 开头，第四段以 8/9/a/b 开头
+  const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+
+  // ✅ 正常情况
+  it('新增记账记录的 id 是标准 UUID v4 格式（36 位，带 4 个连字符）', () => {
+    const expense = addExpense({
+      amount: 1,
+      categoryId: 'other',
+      subcategoryId: 'other-misc',
+      type: 'expense',
+      note: 'uuid 格式检查',
+      expenseDate: '2019-05-01',
+    })
+    expect(expense.id).toHaveLength(36)
+    expect(expense.id).toMatch(UUID_V4)
+  })
+
+  it('新增分类的 id 也是标准 UUID v4 格式', () => {
+    const cat = addCategory('uuid 格式检查', '🆔')
+    expect(cat.id).toMatch(UUID_V4)
+  })
+
+  // ⚠️ 边界情况：连续快速生成不会撞号
+  it('连续新增 50 条记录，id 全部不重复', () => {
+    const ids = new Set<string>()
+    for (let i = 0; i < 50; i++) {
+      const e = addExpense({
+        amount: 1,
+        categoryId: 'other',
+        subcategoryId: 'other-misc',
+        type: 'expense',
+        note: `唯一性检查 ${i}`,
+        expenseDate: '2019-05-02',
+      })
+      ids.add(e.id)
+    }
+    expect(ids.size).toBe(50)
+  })
+
+  it('生成的 id 能作为主键正常查回来（写入数据库后 id 不变）', () => {
+    const e = addExpense({
+      amount: 1,
+      categoryId: 'other',
+      subcategoryId: 'other-misc',
+      type: 'expense',
+      note: '主键回查',
+      expenseDate: '2019-05-03',
+    })
+    const found = getExpenses('2019-05').find(x => x.id === e.id)
+    expect(found?.id).toBe(e.id)
+    expect(found?.note).toBe('主键回查')
+  })
+})

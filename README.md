@@ -42,6 +42,7 @@
 - 💾 **数据完全本地**：使用 SQLite 数据库存储，不联网、不上传，隐私安全
 - ✏️ **分类可自定义**：不满意默认分类？可以随时增删改，完全按自己的习惯来
 - 🐍 **内置贪吃蛇**：工作学习之余放松一下，最高分本地保存
+- 🖥️ **窗口自适应**：拉大或最大化窗口时，界面等比例放大；宽屏下右侧还会出现"本月支出日历"热力图——花钱越多的日子颜色越深，一眼看出哪天"大出血"
 
 ---
 
@@ -80,6 +81,8 @@
 小白记账app/
 ├── README.md                          # 本文件 — 项目说明
 ├── CLAUDE.md                          # Claude Code 开发协作规则
+├── .github/workflows/release.yml      # 自动打包发布（推送 v 开头的标签即触发）
+├── docs/release-notes/                # 每个版本的更新说明（自动填入 Releases 页面）
 ├── package.json                       # 项目依赖和脚本配置
 ├── electron.vite.config.ts            # 构建配置
 ├── tsconfig.json                      # TypeScript 配置
@@ -99,8 +102,9 @@
 │       ├── api/
 │       │   └── db.ts                  # 前端调用数据库的 API 层
 │       ├── components/                # 可复用的 UI 组件
-│       │   ├── Layout.tsx             # 底部导航栏布局
-│       │   └── CategoryPicker.tsx     # 两级分类选择器（弹出式）
+│       │   ├── Layout.tsx             # 三栏外壳 + 底部导航栏（宽屏时显示侧栏）
+│       │   ├── CategoryPicker.tsx     # 两级分类选择器（弹出式）
+│       │   └── side-panels/           # 宽屏侧栏小组件（本月支出日历热力图）
 │       ├── pages/                     # 5 个主页面
 │       │   ├── AddExpense.tsx         # 💰 记账页面
 │       │   ├── ExpenseList.tsx        # 📋 账单列表页面
@@ -111,7 +115,8 @@
 │       │   └── categories.ts          # 默认分类数据（8 个支出大类 + 5 个收入大类）
 │       ├── utils/
 │       │   ├── format.ts              # 金额格式化（分→元显示）
-│       │   └── date.ts                # 日期工具函数
+│       │   ├── date.ts                # 日期工具函数
+│       │   └── heatmap.ts             # 月历热力图计算（金额 → 颜色深度）
 │       ├── types/
 │       │   ├── index.ts               # TypeScript 类型定义
 │       │   └── electron.d.ts          # Electron 通信接口类型
@@ -300,7 +305,8 @@ npm run dev
 
 | 标签 | 内容 |
 |------|------|
-| `v1.1.0` | **支持 Mac 发布** — 双平台安装包（Windows .exe + Mac .dmg），GitHub Actions 自动打包 |
+| `v1.2.0` | **窗口自适应 + 本月支出日历** — 界面随窗口等比例放大，宽屏右侧显示日历热力图，两侧留白改为氛围背景；修复 v1.1.0 无法启动、无法保存的严重问题 |
+| `v1.1.0` | **支持 Mac 发布** — 双平台安装包（Windows .exe + Mac .dmg），GitHub Actions 自动打包。⚠️ 此版本无法启动/无法保存，请使用 v1.2.0 |
 | `v1.0.0` | **首个正式发布** — Windows 安装包，GitHub Releases 一键下载安装 |
 | 早期版本 | 开发历程：`v1-初始化项目` → `v2-分类系统升级和收入功能` → `v3-添加README文档` → `v4-贪吃蛇小游戏` |
 

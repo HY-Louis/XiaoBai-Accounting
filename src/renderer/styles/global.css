@@ -27,22 +27,120 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
     "Microsoft YaHei", "Helvetica Neue", sans-serif;
-  background: var(--color-bg);
+  /* Ambient background: two soft colour washes in opposite corners over the base grey */
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(79, 110, 247, 0.10), transparent 60%),
+    radial-gradient(900px 500px at 110% 110%, rgba(52, 199, 89, 0.08), transparent 60%),
+    var(--color-bg);
+  background-attachment: fixed;
   color: var(--color-text);
   font-size: 15px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
 
-#root {
-  max-width: 480px;
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+/* ---- Ambient blobs ----
+   Two blurred light spots that drift slowly behind everything, like a live
+   wallpaper. z-index:-1 paints them above the page background but below
+   #root, so they never cover content or catch clicks. */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  z-index: -1;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  will-change: transform;
 }
 
-/* ---- Layout ---- */
+body::before {
+  width: 420px;
+  height: 420px;
+  top: -120px;
+  left: -100px;
+  background: rgba(79, 110, 247, 0.18);
+  animation: drift-a 28s ease-in-out infinite alternate;
+}
+
+body::after {
+  width: 360px;
+  height: 360px;
+  right: -80px;
+  bottom: -120px;
+  background: rgba(255, 149, 0, 0.12);
+  animation: drift-b 34s ease-in-out infinite alternate;
+}
+
+@keyframes drift-a {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(60px, 40px) scale(1.08); }
+}
+
+@keyframes drift-b {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(-50px, -60px) scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    animation: none;
+  }
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* ---- Layout ----
+   Shell: a single centred phone-width column by default. On wide windows it
+   becomes 3 columns (side | main | side) so the space beside the UI can hold
+   widgets instead of sitting empty. Both side tracks are 1fr, so the main
+   column — and the fixed bottom nav under it — stay centred. */
+.app-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 480px);
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.app-main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-width: 0;
+}
+
+.side-column {
+  display: none;
+}
+
+@media (min-width: 1000px) {
+  .app-shell {
+    grid-template-columns: minmax(0, 1fr) 480px minmax(0, 1fr);
+    column-gap: 24px;
+    justify-content: stretch;
+    padding: 0 16px;
+  }
+
+  .side-column {
+    display: block;
+  }
+
+  /* Stays in view while the main column scrolls */
+  .side-right {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    padding-top: 24px;
+  }
+
+  .side-right .card {
+    max-width: 320px;
+  }
+}
+
 .app-content {
   flex: 1;
   padding: 16px;
@@ -639,6 +737,76 @@ body {
 /* Income save button */
 .btn-income {
   background: var(--color-success) !important;
+}
+
+/* ---- Month heatmap (side panel) ---- */
+.heatmap-card .card-header {
+  align-items: baseline;
+}
+
+.heatmap-month {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.heatmap-weekday {
+  text-align: center;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  padding-bottom: 2px;
+}
+
+.heatmap-cell {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--color-text);
+  cursor: default;
+}
+
+/* Colour scale: 0 = no spending, 4 = the month's biggest day */
+.heat-0 { background: var(--color-border); }
+.heat-1 { background: rgba(79, 110, 247, 0.25); }
+.heat-2 { background: rgba(79, 110, 247, 0.45); }
+.heat-3 { background: rgba(79, 110, 247, 0.70); color: #fff; }
+.heat-4 { background: rgba(79, 110, 247, 1); color: #fff; }
+
+/* White gap + blue ring so today is visible on every shade, incl. solid blue */
+.heatmap-cell.is-today {
+  box-shadow: 0 0 0 1.5px #fff, 0 0 0 3px var(--color-primary);
+}
+
+.heatmap-cell.is-future {
+  opacity: 0.35;
+}
+
+.heatmap-footer {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.heatmap-legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.heatmap-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
 }
 
 .mt-12 { margin-top: 12px; }
